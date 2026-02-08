@@ -1,22 +1,26 @@
-# api.py
+# api.py# api.py
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel, conlist
 from typing import Annotated
 import numpy as np
 import mlflow.sklearn
+import os
 
 # -----------------------------
-# 1️⃣ Configuración del modelo
+# 1️⃣ Configuración del modelo usando Model Registry
 # -----------------------------
-RUN_ID = "f71f6ae8feb341ad972efaa5af0ffc4c"  # reemplaza con tu run_id
-MODEL_URI = f"runs:/{RUN_ID}/model"
+# En lugar de RUN_ID, usamos un nombre de modelo y versión
+MODEL_NAME = os.getenv("MODEL_NAME", "gb_model")  # nombre del modelo en MLflow
+MODEL_VERSION = os.getenv("MODEL_VERSION", "1")   # versión, puede ser "1" o "latest"
+
+MODEL_URI = f"models:/{MODEL_NAME}/{MODEL_VERSION}"
 
 try:
     model = mlflow.sklearn.load_model(MODEL_URI)
-    print(" Modelo cargado desde MLflow")
+    print("✅ Modelo cargado desde MLflow (Model Registry)")
 except Exception as e:
     model = None
-    print(f" Error cargando modelo: {e}")
+    print(f"❌ Error cargando modelo: {e}")
 
 # -----------------------------
 # 2️⃣ Inicializar FastAPI
@@ -36,7 +40,6 @@ class PredictRequest(BaseModel):
 def health_check():
     if model:
         try:
-            # prueba rápida: 1 fila con 10 ceros
             _ = model.predict(np.zeros((1, 10)))
             return {"status": "ok"}
         except Exception as e:
@@ -57,3 +60,5 @@ def predict(request: PredictRequest):
         return {"prediction": float(prediction[0])}
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
+
+
