@@ -85,6 +85,6 @@ waitress==3.0.2
 wcwidth==0.6.0
 Werkzeug==3.1.5
 zipp==3.23.0
-python-3.11.8
+
 
 
