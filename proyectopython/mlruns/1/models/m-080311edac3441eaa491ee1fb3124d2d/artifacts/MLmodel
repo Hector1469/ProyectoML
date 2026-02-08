@@ -1,0 +1,31 @@
+artifact_path: file:C:/Users/hecto/Desktop/proyectopython/mlruns/1/models/m-080311edac3441eaa491ee1fb3124d2d/artifacts
+env_vars:
+- DATABRICKS_HOST
+- DATABRICKS_TOKEN
+flavors:
+  python_function:
+    env:
+      conda: conda.yaml
+      virtualenv: python_env.yaml
+    loader_module: mlflow.sklearn
+    model_path: model.pkl
+    predict_fn: predict
+    python_version: 3.14.3
+  sklearn:
+    code: null
+    pickled_model: model.pkl
+    serialization_format: cloudpickle
+    sklearn_version: 1.8.0
+    skops_trusted_types: null
+mlflow_version: 3.9.0
+model_id: m-080311edac3441eaa491ee1fb3124d2d
+model_size_bytes: 271663
+model_uuid: m-080311edac3441eaa491ee1fb3124d2d
+prompts: null
+run_id: b43a52c46b084983ad7b1759ff6f15ae
+saved_input_example_info:
+  artifact_path: input_example.json
+  pandas_orient: split
+  serving_input_path: serving_input_example.json
+  type: dataframe
+utc_time_created: '2026-02-08 16:45:59.437009'
